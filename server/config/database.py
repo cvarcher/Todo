@@ -1,8 +1,14 @@
 from pymongo import MongoClient
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 client = MongoClient(
-    "mongodb+srv://sthasurja123_db_user:aruDvGF3LUJ624Kt@cluster0.alqt4go.mongodb.net/?appName=Cluster0"
+    os.getenv("MONGO_URI")
 )
 
 db = client.todos_db
 todos_collection = db["todo_collection"]
+users_collection = db["users_collection"]
+
