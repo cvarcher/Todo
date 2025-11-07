@@ -3,6 +3,12 @@ import "flowbite";
 import google from "../assets/google.png";
 
 const Form = ({ label }) => {
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+
+        //form submission logic here
+    }
+
     return (
         <div class="bg-[#fcfaf8] min-h-screen flex flex-col">
             <h1 class="text-4xl font-bold mt-20 ml-10 md:text-left flex items-center">
@@ -10,14 +16,14 @@ const Form = ({ label }) => {
             </h1>
 
             <h1 class="text-4xl font-bold mt-20 ml-10 md:text-left flex items-center">
-                {label == "Sign Up" ? (
+                {label.toLowerCase() == "sign up" ? (
                     <h2>Welcome Back!</h2>
                 ) : (
                     <h2>Welcome!</h2>
                 )}
             </h1>
             <div class=" flex flex-1">
-                <form class="flex flex-col justify-center w-1/2 md:w-[600px] p-10 align-center lg:full lg:align-center">
+                <form class="flex flex-col justify-center w-1/2 md:w-[600px] p-10 align-center lg:full lg:align-center" onSubmit={handleSubmit}>
                     {/* <h2>{label}</h2> */}
                     <div class="grid gap-6 mb-6 md:grid-cols-2"></div>
                     <div class="mb-6">

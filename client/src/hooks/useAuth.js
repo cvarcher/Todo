@@ -1,10 +1,14 @@
-import { useState } from "react"
+import axios from "axios";
+import { useState } from "react";
 
-export const useAuth =()=>{
+export const useAuth = () => {
+    const [data, setData] = useState({});
+    const[loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+
+
     
-   const [user,setUser]= useState('');
+};
 
-   const [password,setPassword]= useState('');
 
-   
-}
