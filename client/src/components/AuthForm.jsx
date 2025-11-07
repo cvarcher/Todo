@@ -3,11 +3,11 @@ import "flowbite";
 import google from "../assets/google.png";
 
 const Form = ({ label }) => {
-    const handleSubmit=(e)=>{
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         //form submission logic here
-    }
+    };
 
     return (
         <div class="bg-[#fcfaf8] min-h-screen flex flex-col">
@@ -23,16 +23,36 @@ const Form = ({ label }) => {
                 )}
             </h1>
             <div class=" flex flex-1">
-                <form class="flex flex-col justify-center w-1/2 md:w-[600px] p-10 align-center lg:full lg:align-center" onSubmit={handleSubmit}>
+                <form
+                    class="flex flex-col justify-center w-1/2 md:w-[600px] p-10 align-center lg:full lg:align-center"
+                    onSubmit={handleSubmit}
+                >
                     {/* <h2>{label}</h2> */}
-                    <div class="grid gap-6 mb-6 md:grid-cols-2"></div>
+                   {label.toLowerCase()==='sign up' && (
                     <div class="mb-6">
-                        <label for="email" class="block mb-2 text-md  ">
+                        <label for="email" class="block mb-2 text-md  text-gray-600">
+                            Username
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="username"
+                            class=" border border-gray-100 text-gray-900 text-lg p-3 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark: dark:border-gray-300 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-200"
+                            placeholder="Enter you Username"
+                            required
+                        />
+                    </div>
+                   )}
+
+
+                    <div class="mb-6">
+                        <label for="email" class="block mb-2 text-md text-gray-600 ">
                             Email address
                         </label>
                         <input
                             type="email"
                             id="email"
+                            name="email"
                             class=" border border-gray-100 text-gray-900 text-lg p-3 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark: dark:border-gray-300 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-200"
                             placeholder="Enter you Email"
                             required
@@ -40,12 +60,13 @@ const Form = ({ label }) => {
                     </div>
 
                     <div class="mb-6">
-                        <label for="password" class="block mb-2 text-md ">
+                        <label for="password" class="block mb-2 text-md text-gray-600">
                             Password
                         </label>
                         <input
                             type="password"
                             id="password"
+                            name="password"
                             class=" border  text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark: dark:border-gray-300 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Password"
                             required

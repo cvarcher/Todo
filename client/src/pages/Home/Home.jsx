@@ -1,13 +1,19 @@
 import React from "react";
-import AppNavbar from "../../components/AppNavbar";
-import AuthForm from "../../components/AuthForm";
 import Siderbar from "../../components/Siderbar";
+import { signUp } from "../../api/auth";
+
 
 const Home = () => {
+  const getlogin = async () => {
+    const todos = await signUp();
+  };
+ getlogin();
+
     return (
         <div>
             {/* <AppNavbar/> */}
             {/* <AuthForm/> */}
+
             <Siderbar/>
             Home
         </div>
