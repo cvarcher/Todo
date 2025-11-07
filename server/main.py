@@ -7,11 +7,25 @@ from bson import ObjectId
 from typing import List
 from auth import *
 from schemas import *
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",  
+    "http://127.0.0.1:3000",
+]
 
-@app.post("/register")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,   
+    allow_credentials=True,
+    allow_methods=["*"],   
+    allow_headers=["*"],     
+)
+
+@app.post("/api/register")
 def register(user: UserRegister):
     if users_collection.find_one({"email": user.email}):
         return HTTPException(status_code = 400, detail = "User already exists")
@@ -23,7 +37,7 @@ def register(user: UserRegister):
     })
     return {"message": "User registered"}
 
-@app.post('/login')
+@app.post('/api/login')
 def login(user: UserLogin):
     try:
         logged_user = users_collection.find_one({'email': user.email})
@@ -42,7 +56,7 @@ def login(user: UserLogin):
         raise HTTPException(status_code = 400)
         
 
-@app.post("/refresh")
+@app.post("/api/refresh")
 def refresh_token(refresh_token: str):
     payload = verify_token(refresh_token, "refresh")
     data = {"email": payload.get("email"), "user_id": payload.get("user_id")}
@@ -51,7 +65,7 @@ def refresh_token(refresh_token: str):
 
 
 
-@app.get("/tasks")
+@app.get("/api/tasks")
 def get_all_tasks(user = Depends(get_current_user)):
     tasks = list(todos_collection.find({"user_id": str(user["_id"])}))
     for task in tasks:
@@ -59,7 +73,7 @@ def get_all_tasks(user = Depends(get_current_user)):
     return tasks
 
 
-@app.post("/tasks")
+@app.post("/api/tasks")
 def create_task(task_request: TodoTask, user= Depends(get_current_user)):
     created_time = datetime.now()
     item = {
@@ -74,7 +88,7 @@ def create_task(task_request: TodoTask, user= Depends(get_current_user)):
     item["_id"] = str(result.inserted_id)  
     return item
 
-@app.get("/tasks/{id}")
+@app.get("/api/tasks/{id}")
 def get_task(id:str, user = Depends(get_current_user)):
     item = todos_collection.find_one({"task_id":id, "user_id": str(user["_id"])})
 
@@ -84,7 +98,7 @@ def get_task(id:str, user = Depends(get_current_user)):
     item["created_at"]= str(item["created_at"])
     return item 
 
-@app.delete("/tasks/{id}")
+@app.delete("/api/tasks/{id}")
 def delete_task(id:str,user= Depends(get_current_user)):
     todos_collection.delete_one({"task_id":id, "user_id": ObjectId(user["_id"])})
     return "success"
