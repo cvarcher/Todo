@@ -5,7 +5,6 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 function App() {
     return (
-        <>
             <Router>
                 <Routes>
                     <Route path="/" element={<Layout />}>
@@ -15,7 +14,7 @@ function App() {
                     <Route path="/auth/signup" element={<SignUp />} />
                 </Routes>
             </Router>
-        </>
+        
     );
 }
 

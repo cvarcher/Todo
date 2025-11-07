@@ -4,10 +4,7 @@ import { signUp } from "../../api/auth";
 
 
 const Home = () => {
-  const getlogin = async () => {
-    const todos = await signUp();
-  };
- getlogin();
+
 
     return (
         <div>

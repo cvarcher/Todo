@@ -7,15 +7,25 @@ import { useState } from "react";
 
 export const useAuth = (initialValues, onSubmit) => {
     const [values, setValues] = useState(initialValues);
-    const [error, setError] = useState(null);
     
 
 //handle input change
  const handleChange =(e)=>{
+    const {name,value}= e.target
+    setValues((prev)=>(
+        {...prev,[name]:value}
+    ))
 
  }
-
-    
+ const  handleSubmit =(e)=>{
+    e.preventDefault();
+    onSubmit(values)
+ }
+    return {
+        values,
+        handleChange,
+        handleSubmit,
+    }
 };
 
 
