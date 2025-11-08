@@ -5,6 +5,7 @@ import {
     fetchTodoById,
     deleteTodo,
     updateTodo,
+    fetchcompletedTodos,
 } from "../api/Todos";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -25,6 +26,24 @@ export const useGetTodos = () => {
     console.log(isLoading);
     console.log(error);
     return { Todos, isLoading, error };
+};
+
+//get completed todos
+export const useCompletedTodos = () => {
+    const {
+        data: CompletedTodos = [], //empty array as default value
+        isLoading,
+        error,
+    } = useQuery({
+        queryKey: ["completedTodos"],
+        queryFn: fetchcompletedTodos,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        cacheTime: 1000 * 60 * 10, // 10 minutes
+    });
+    console.log(CompletedTodos);
+    console.log(isLoading);
+    console.log(error);
+    return { CompletedTodos, isLoading, error };
 };
 
 //get specific todo by id
@@ -86,13 +105,14 @@ export const useDelete = () => {
 export const useUpdate = () => {
     const queryClient = useQueryClient();
     const mutationUpdate = useMutation({
-        mutationFn: ({id,updatedData}) => updateTodo(id,updatedData),
+        mutationFn: ({ id, updatedData }) => updateTodo(id, updatedData),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["todos"] });
-            console.log("updated sucessfulyy");
+            console.log("updated sucessfulyy", data);
         },
         onError: (error) => {
             console.error("Failed to update task", error);
         },
     });
+    return mutationUpdate;
 };

@@ -84,7 +84,7 @@ const Form = ({ label }) => {
                                 name="username"
                                 value={values.username}
                                 onChange={handleChange}
-              className="border border-gray-300 text-gray-900 text-lg p-3 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"
+              className="focus:outline-none border-gray-300 text-gray-900 text-lg p-3 rounded-lg  block w-full"
                                 placeholder="Enter your Username"
                                 required
                             />
