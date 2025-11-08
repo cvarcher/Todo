@@ -8,7 +8,6 @@ class TodoTask(BaseModel):
   created_at: datetime = Field(default_factory = datetime.now)
   completed_at : Optional[datetime] = None
 
- 
 
 class User(BaseModel):
   email : str

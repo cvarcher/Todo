@@ -56,6 +56,7 @@ def login(user: UserLogin):
         raise HTTPException(status_code = 400)
         
 
+
 @app.post("/api/refresh")
 def refresh_token(refresh_token: str):
     payload = verify_token(refresh_token, "refresh")
@@ -73,8 +74,39 @@ def get_all_tasks(user = Depends(get_current_user)):
     return tasks
 
 
+
+@app.get("/api/todo")
+def get_all_todo_tasks(user = Depends(get_current_user)):
+    tasks = list(todos_collection.find({"user_id":str(user["_id"])}))
+    todo_tasks = [t for t in tasks if t.get("is_completed") == False]
+    
+    for task in todo_tasks:
+        task["_id"] = str(task["_id"])
+    return todo_tasks
+
+
+
+@app.get("/api/tasks_completed/today")
+def tasks_completed_todady(user = Depends(get_current_user)):
+    now = datetime.now()
+    today = datetime(now.year, now.month, now.day)
+    tomorrow = today + timedelta(days = 1)
+
+    query = {
+        "user_id":str(user["_id"]),
+        "is_completed" :True,
+        "completed_at": {"$gte": today, "$lt":tomorrow} 
+    }
+    completed_tasks = list(todos_collection.find(query))
+
+    for task in completed_tasks:
+        task["_id"]= str(task["_id"])
+
+
+    return completed_tasks
+
 @app.post("/api/tasks")
-def create_task(task_request: TodoTask, user= Depends(get_current_user)):
+def create_task(task_request: TaskCreate, user= Depends(get_current_user)):
     created_time = datetime.now()
     item = {
         "user_id": str(user["_id"]),
@@ -88,6 +120,7 @@ def create_task(task_request: TodoTask, user= Depends(get_current_user)):
     item["_id"] = str(result.inserted_id)  
     return item
 
+
 @app.get("/api/tasks/{id}")
 def get_task(id:str, user = Depends(get_current_user)):
     item = todos_collection.find_one({"task_id":id, "user_id": str(user["_id"])})
@@ -100,6 +133,34 @@ def get_task(id:str, user = Depends(get_current_user)):
 
 @app.delete("/api/tasks/{id}")
 def delete_task(id:str,user= Depends(get_current_user)):
-    todos_collection.delete_one({"task_id":id, "user_id": ObjectId(user["_id"])})
-    return "success"
+    result = todos_collection.delete_one({"task_id":id, "user_id": str(user["_id"])})
+    if result.deleted_count ==0:
+        raise HTTPException(status_code =404)
+    return {"message": "Task deleted"}
+
+
+
+@app.patch("/api/tasks/{id}")
+def edit_task(id:str,  updated_data: TaskUpdate,user = Depends(get_current_user,)):
+    updated_values = dict()
+
+    for k,v in updated_data.dict().items():
+        if v is not None:
+            updated_values[k] = v
+    if "is_completed" in updated_values:
+        if updated_values["is_completed"]:
+            updated_values["completed_at"] = datetime.now()
+        else:
+            updated_values["completed_at"]=None
+
+    result = todos_collection.update_one({"task_id":id, "user_id": str(user["_id"])},{
+        "$set":updated_values
+    })
+    if result.modified_count == 0: raise HTTPException(status_code=404, detail="Task not found or no changes applied") 
+    updated_task = todos_collection.find_one({"task_id": id, "user_id": str(user["_id"])})
+    
+    updated_task["_id"] = str(updated_task["_id"]) 
+    
+    return updated_task
+
     
