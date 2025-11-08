@@ -21,7 +21,7 @@ const Form = ({ label }) => {
         onSuccess: (data) => {
             login(data); // set user data in context
             console.log("user logged in : ", data);
-            navigate('/')
+            navigate('/todo')
         },
     });
 
