@@ -21,7 +21,7 @@ export const login = async(loginData)=>{
 //api for signup
 export const signUp = async()=>{
 try {
-     const res =await axios.post(`${API_URL}register`,{email:'salma@gmail.com', username :'salma', password :"salma123"})
+     const res =await axios.post(`${API_URL}register`,{email:'ss@gmail.com', username :'ss', password :"salma123"})
      console.log(res.data)
      return res.data
 } catch (error) {
