@@ -47,6 +47,7 @@ export const fetchTodoById = async(id)=>{
 
     } catch (error) {
         console.error('error fetching todo by id:', error);
+        throw error; 
     }
 }
 

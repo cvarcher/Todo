@@ -1,15 +1,33 @@
-import React from "react";
+import {React,useState} from "react";
 import { Plus } from "lucide-react"; // icon library, optional
 import { useGetTodos } from "../hooks/useTodos";
-
+import { usegetTodoById } from "../hooks/useTodos";
 
 const ListTodos = () => {
   const {Todos, isLoading,error}=useGetTodos();
- 
+const [selectedTodoId, setSelectedTodoId] = useState(null);
+  const{TodoById,isLoading:isTodoLoading}=usegetTodoById(selectedTodoId);
+
 
 if(isLoading) return <div>Loading...</div>;
 if(error) return <div>Error loading tasks</div>;
-if(Todos.length===0|| !Todos) return <div>No tasks available</div>
+if(Todos.length===0|| !Todos) return <div className="text-center flex flex-col font-semibold text-xl mt-5">
+  <p>No tasks availabe.</p>
+  <div>
+
+  <button  className=" flex text-red-500 hover:text-red-600 gap-2 mt-2 font-medium"
+          // onClick={() =>
+          //   setTasks([
+          //     ...tasks,
+          //     { id: tasks.length + 1, title: "new task", description: "" },
+          //   ])
+          // }
+        >
+          <Plus size={18} />
+          Add task
+        </button>
+  </div>
+</div>
 
   return (
     <div className="max-w-md mx-auto mt-12">
@@ -19,7 +37,11 @@ if(Todos.length===0|| !Todos) return <div>No tasks available</div>
       {/* Task List */}
       <div className="space-y-4">
         {Todos.map((todo) => (
-          <div key={todo._id}>
+          <div key={todo._id}
+onClick={() => setSelectedTodoId(todo.task_id)}
+          className="cursor-pointer"
+          >
+            
             <div className="flex items-start gap-3">
               <input
                 type="radio"
@@ -37,19 +59,37 @@ if(Todos.length===0|| !Todos) return <div>No tasks available</div>
         ))}
 
         {/* Add Task Button */}
-        <button
-          className="flex items-center text-red-500 hover:text-red-600 gap-2 mt-2 font-medium"
-          // onClick={() =>
-          //   setTasks([
-          //     ...tasks,
-          //     { id: tasks.length + 1, title: "new task", description: "" },
-          //   ])
-          // }
-        >
-          <Plus size={18} />
-          Add task
-        </button>
+        
+       
       </div>
+{/* tododescription */}
+   {selectedTodoId &&(
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
+
+            {isTodoLoading ? (
+              <div>Loading...</div>
+            ) : TodoById ? (
+              <div>
+                <h3 className="text-xl font-bold">{TodoById.task_desc}</h3>
+                <p>Status: {TodoById.is_completed ? "Done" : "Pending"}</p>
+                <button
+                  className="mt-4 text-red-500"
+                  onClick={() => setSelectedTodoId(null)}
+                >
+                  Close
+                </button>
+              </div>
+            ) : (
+              <div>No details available</div>
+            )}
+</div>
+    </div>
+
+   )}
+
+
+
     </div>
   );
 };
