@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 // import { fetchTodos, ,createTodo,deleteTodo,updateTodo} from "../api/Todos";
-import { fetchTodos,createTodo,fetchTodoById } from "../api/Todos";
+import { fetchTodos,createTodo,fetchTodoById ,deleteTodo} from "../api/Todos";
 import { useQueryClient } from "@tanstack/react-query";
 
 //cutsom hook to get all todos
@@ -32,7 +32,7 @@ export const usegetTodoById = (id) => {
         queryKey: ["todoById", id ],
         queryFn: () => fetchTodoById(id),
         enabled: !!id, 
-        staleTime: 1000 * 60 * 5, // 5 minutes
+        staleTime: 100 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 10, // 10 minutes
     });
     console.log(isLoading);
@@ -58,3 +58,25 @@ export const useCreateNew =()=>{
     return mutation
 
  }
+
+ //deleted todo
+ export const useDelete = () => {
+  const queryClient = useQueryClient();
+
+  const mutationDel = useMutation({
+    mutationFn: (id) => deleteTodo(id),
+    onSuccess: async (data) => {
+      console.log('Task deleted successfully', data);
+      // Wait for the backend to confirm deletion, then refetch
+     queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+    onError: (error) => {
+      console.error('Failed to delete task', error);
+    },
+  });
+
+  return mutationDel;
+};
+
+
+
