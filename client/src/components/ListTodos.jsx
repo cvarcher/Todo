@@ -5,7 +5,7 @@ import { usegetTodoById } from "../hooks/useTodos";
 import { useDelete } from "../hooks/useTodos";
 import dele from "../assets/dele.png";
 import editing from "../assets/editing.png";
-
+import EditTodo from "./EditTodo";
 
 
 
@@ -75,7 +75,10 @@ const ListTodos = () => {
                                               deleteTask(todo.task_id)
                                             }}
                                         />
-                                    <img src={editing} alt="edit" className="w-5"/>
+                                    <img src={editing} alt="edit" className="w-5"  onClick={()=>{
+                                      e.stopPropagation();
+                                      <EditTodo id ={ todo.task_id}/>
+                                    }}/>
                                         </div>
 
                                     </div>
