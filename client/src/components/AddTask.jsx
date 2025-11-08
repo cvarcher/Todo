@@ -1,10 +1,11 @@
 import React, { useState, forwardRef } from "react";
-import { Button } from "flowbite-react";
+import { Button, Sidebar } from "flowbite-react";
 import { useCreateNew } from "../hooks/useTodos";
 import DatePicker from "react-datepicker";
 import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
+import Siderbar from "./Siderbar";
 
 const AddTask = () => {
   const createTodoMutation = useCreateNew();
@@ -30,19 +31,23 @@ const AddTask = () => {
       is_completed: false,
     };
 
+    formData.task_desc ? 
     createTodoMutation.mutate(formData, {
       onSuccess: () => {
         setDescription("");
         setSelectedDate(null);
       },
-    });
+    }): alert("Input the task");
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10">
-      <h2 className="text-4xl font-bold mb-6">Tasks</h2>
+  
+    <div className="flex min-h-screen justify-center items-start  overflow-hidden bg-gray-50">
+    <Siderbar/>
+    <div className="w-full max-w-2xl  mr-8">
+      <h2 className="text-4xl font-bold mb-6 text-center mt-10">Tasks</h2>
 
-      <div className="bg-gray-100 p-3 rounded-lg flex flex-col gap-3">
+      <div className="bg-gray-100 p-5 rounded-lg flex flex-col gap-3 shadow-md">
         <form className="mx-auto w-full flex flex-col gap-3" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -80,6 +85,8 @@ const AddTask = () => {
         </form>
       </div>
     </div>
+    </div>
+    
   );
 };
 

@@ -28,6 +28,22 @@ export const createTodo = async (todo) => {
     } catch (error) {}
 };
 
+//get completedTodos
+export const fetchcompletedTodos = async()=>{
+    try {
+        const res=await axios.get(`${API_URL}tasks_completed/today`,{
+            headers:{
+                Authorization :`Bearer ${localStorage.getItem("access_token")}`
+            }
+        })
+        console.log(res.data)
+        return res.data||[]
+
+    }catch(error){
+        console.log("error displaying completed todo for today")
+    }
+}
+
 //get specific todo
 export const fetchTodoById = async (id) => {
     try {
@@ -68,4 +84,19 @@ export const updateTodo = async (todo, id) => {
     } catch (error) {
         console.error("error updating todo:", error);
     }
-};
+}
+
+//get user profile
+export const fetchUserProfile = async(email)=>{
+    try {
+        const response = await axios.get(`${API_URL}user/${email}`,{
+        headers: {
+             Authorization :`Bearer ${localStorage.getItem("access_token")}`
+        }
+
+    })
+
+    return response.data
+}catch(error){
+        console.error('no user found')}
+}
