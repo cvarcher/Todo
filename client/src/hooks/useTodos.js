@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 // import { fetchTodos, ,createTodo,deleteTodo,updateTodo} from "../api/Todos";
-import { fetchTodos,createTodo,fetchTodoById } from "../api/Todos";
+import { fetchTodos,createTodo,fetchTodoById,fetchcompletedTodos } from "../api/Todos";
 import { useQueryClient } from "@tanstack/react-query";
 
 //cutsom hook to get all todos
@@ -20,6 +20,24 @@ export const useGetTodos = () => {
     console.log(isLoading);
     console.log(error);
     return {Todos,isLoading,error};
+};
+
+export const useCompletedTodos = () => {
+    // const {isAuthenticated, accessToken} = useAuthContext();
+    const {
+        data: CompletedTodos=[],//empty array as default value
+        isLoading,
+        error,
+    } = useQuery({
+        queryKey: ["completedTodos"],
+        queryFn: fetchcompletedTodos,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        cacheTime: 1000 * 60 * 10, // 10 minutes
+    });
+    console.log(CompletedTodos);
+    console.log(isLoading);
+    console.log(error);
+    return {CompletedTodos,isLoading,error};
 };
 
 //get specific todo by id

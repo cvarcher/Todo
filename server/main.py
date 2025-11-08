@@ -164,4 +164,12 @@ def edit_task(id:str,  updated_data: TaskUpdate,user = Depends(get_current_user,
     
     return updated_task
 
-    
+@app.get('/api/user/{email}')
+def user_profile(email:str,user = Depends(get_current_user)):
+    logged_user = users_collection.find_one({"email": email})
+    if logged_user:
+        logged_user["_id"]= str(logged_user["_id"])
+        userdata =  {k:v for k,v in logged_user.items() if k not in ['password','_id']}
+        print(userdata)
+        return userdata
+    raise HTTPException(status_code=404, detail="User not found")
