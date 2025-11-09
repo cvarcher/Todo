@@ -54,9 +54,7 @@ export const usegetTodoById = (id) => {
         error,
     } = useQuery({
         queryKey: ["todoById", id],
-        queryKey: ["todoById", id],
         queryFn: () => fetchTodoById(id),
-        enabled: !!id,
         enabled: !!id,
         staleTime: 100 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 10, // 10 minutes
@@ -64,7 +62,6 @@ export const usegetTodoById = (id) => {
     console.log(isLoading);
     console.log(error);
     console.log(TodoById);
-    return { TodoById, isLoading, error };
     return { TodoById, isLoading, error };
 };
 

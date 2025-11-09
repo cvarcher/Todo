@@ -5,7 +5,6 @@ import DatePicker from "react-datepicker";
 import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
-import Siderbar from "./Siderbar";
 
 const AddTask = () => {
   const createTodoMutation = useCreateNew();
@@ -36,19 +35,20 @@ const AddTask = () => {
       onSuccess: () => {
         setDescription("");
         setSelectedDate(null);
+        alert("!! Task added!!")
       },
-    }): alert("Input the task");
+    }): alert("Task desciption must not be empty!!");
   };
 
   return (
   
     <div className="flex min-h-screen justify-center items-start  overflow-hidden bg-gray-50">
-    <Siderbar/>
+    {/* <Siderbar/> */}
     <div className="w-full max-w-2xl  mr-8">
       <h2 className="text-4xl font-bold mb-6 text-center mt-10">Tasks</h2>
 
       <div className="bg-gray-100 p-5 rounded-lg flex flex-col gap-3 shadow-md">
-        <form className="mx-auto w-full flex flex-col gap-3" onSubmit={handleSubmit}>
+        <form className="mx-auto w-1/2 flex flex-col gap-3 md:w-1/2 lg:w-full" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Add your task description"

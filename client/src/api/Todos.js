@@ -74,9 +74,9 @@ export const deleteTodo = async (id) => {
 };
 
 //for updating todo
-export const updateTodo = async (todo, id) => {
+export const updateTodo = async ( id,updatedData) => {
     try {
-        await axios.patch(`${API_URL}tasks/${id}`, todo, {
+        await axios.patch(`${API_URL}tasks/${id}`, updatedData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
