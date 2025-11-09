@@ -27,9 +27,9 @@ const Profile = () => {
   if (!userdata) return <p>Loading profile...</p>;
 
   return (
-    <div className="flex">
-      <Siderbar />
-      <div className="flex justify-center items-center w-full mt-10 text-gray-600">
+    <div className="flex h-screen">
+      
+      <div className="flex w-full mt-10 text-gray-600">
         <div className="flex flex-col">
           <div className="p-4">
             <h1 className="font-semibold text-xl">Username: {userdata.username}</h1>

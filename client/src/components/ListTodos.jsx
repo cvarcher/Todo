@@ -5,13 +5,19 @@ import {
     usegetTodoById,
     useDelete,
     useUpdate,
+    useGetTasks,
+    useCompletedTodos,
 } from "../hooks/useTodos";
-import { useNavigate ,Link} from "react-router-dom";
+import { useNavigate, useParams ,Link} from "react-router-dom";
 import dele from "../assets/dele.png";
 import editing from "../assets/editing.png";
 
-const ListTodos = () => {
-    const { Todos, isLoading, error } = useGetTodos();
+const ListTodos = ({type: propType}) => {
+    const {type: routeType} = useParams();
+    const type = propType||routeType
+    console.log(type)
+    const {Todos, isLoading, error} = type==="todo"?useGetTodos(): type==="completed"?useCompletedTodos(): useGetTasks();
+
     const [selectedTodoId, setSelectedTodoId] = useState(null);
     const { mutate: deleteTask } = useDelete(); //destructure mutuationDel
     const mutationUpdate = useUpdate(); //destructure mutuationUpdate
@@ -25,8 +31,9 @@ const ListTodos = () => {
     if (!Todos || Todos.length === 0) {
         return (
             <div className="flex min-h-screen justify-center items-start overflow-hidden bg-gray-50">
+               
                 <div className="w-full max-w-2xl mr-8 flex flex-col items-center space-y-6 mt-10">
-                     
+                    {type ==="todo"||type==="tasks" ? (
                         <>
                             <p className="font-semibold text-center text-gray-500 text-xl">
                                 No tasks available.
@@ -37,19 +44,20 @@ const ListTodos = () => {
                             >
                                 Add Task
                             </Link>
-                        </>
-                    
+                        </>)
+                    :
                         <>
                             <p className="font-semibold text-center text-gray-500 text-xl">
                                 You haven’t completed any tasks yet!
                             </p>
                             <Link
                                 to="/tasks/todo"
-                                className="flex bg-purple-400  text-white hover:bg-[#a6a0d2]  p-2 rounded-2xl font-medium items-center justify-center"
+                                className="flex bg-green-700 text-white hover:bg-green-900 gap-2 p-2 rounded-2xl font-medium items-center justify-center"
                             >
                                 Go to Tasks
                             </Link>
                         </>
+                        }
                     
                 </div>
             </div>
@@ -60,7 +68,8 @@ const ListTodos = () => {
         <div className="flex min-h-screen justify-center items-start  overflow-hidden bg-gray-50">
             <div className="w-full max-w-2xl  mr-8">
                 {/* Header */}
-                <h2 className="text-3xl font-bold mb-6 mt-10">Inbox</h2>
+                {type==="todo"|| type==="tasks"?
+                <h2 className="text-3xl font-bold mb-6 mt-10">Inbox</h2>:<h2 className="text-3xl font-bold mb-6 mt-10">Completed Tasks</h2>}
 
                 {/* Task List */}
                 <div className="space-y-4">
@@ -91,7 +100,7 @@ const ListTodos = () => {
                                     className="w-full cursor-pointer"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        navigate(`/tasks/${todo.task_id}`); //for editinggtodo
+                                        // navigate(`/tasks/view/${todo.task_id}`); //for editinggtodo
                                         setSelectedTodoId(todo.task_id);
                                     }}
                                 >
@@ -118,6 +127,7 @@ const ListTodos = () => {
                                                         ? "completed"
                                                         : "In progress"}
                                                 </p>
+                                                {type==="completed"&&<span> {todo.completed_at.split('T')[0]} </span>}
 
                                                 <img
                                                     src={dele}
@@ -166,7 +176,7 @@ const ListTodos = () => {
                             <button
                                 onClick={() => {
                                     setSelectedTodoId(null);
-                                    navigate("/tasks");
+                                    // navigate("/tasks/todo");
                                 }}
                                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
                             >

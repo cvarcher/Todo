@@ -52,7 +52,7 @@ const Form = ({ label }) => {
     );
 
     return (
-        <div className="bg-[#fcfaf8] min-h-screen flex flex-col">
+        <div className="bg-[#fcfaf8] min-h-screen flex flex-col ">
             <h1 className="text-4xl font-bold mt-20 ml-10 md:text-left flex items-center">
                 <span className="text-[#0b4074] mr-1">DO.</span> DO
             </h1>
@@ -73,7 +73,7 @@ const Form = ({ label }) => {
                     {label.toLowerCase() === "sign up" && (
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-md text-gray-600 "
+                                className="block mb-2 text-md text-gray-600  "
                                 htmlFor="username"
                             >
                                 Username
@@ -84,7 +84,7 @@ const Form = ({ label }) => {
                                 name="username"
                                 value={values.username}
                                 onChange={handleChange}
-              className="focus:outline-none border-gray-300 text-gray-900 text-lg p-3 rounded-lg  block w-full"
+              className="focus:outline-none border border-gray-300 text-gray-900 text-lg p-3 rounded-lg  block w-full"
                                 placeholder="Enter your Username"
                                 required
                             />

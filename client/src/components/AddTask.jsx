@@ -7,9 +7,10 @@ import {
     useUpdate,
 } from "../hooks/useTodos";
 import DatePicker from "react-datepicker";
-import { Calendar } from "lucide-react";
+import { Calendar, ListTodo } from "lucide-react";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
+import ListTodos from "./ListTodos";
 
 const AddTask = () => {
     const createTodoMutation = useCreateNew();
@@ -124,6 +125,7 @@ const AddTask = () => {
                         </div>
                     </form>
                 </div>
+                <ListTodos type = "tasks"/>
             </div>
         </div>
     );

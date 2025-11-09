@@ -4,6 +4,21 @@ const API_URL = import.meta.env.VITE_API_URL;
 //get data from backend
 export const fetchTodos = async () => {
     try {
+        const res = await axios.get(`${API_URL}todo`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+        });
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.error("Error fetching todos:", error);
+        throw error;
+    }
+};
+
+export const fetchTasks = async () => {
+    try {
         const res = await axios.get(`${API_URL}tasks`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -31,7 +46,7 @@ export const createTodo = async (todo) => {
 //get completedTodos
 export const fetchcompletedTodos = async()=>{
     try {
-        const res=await axios.get(`${API_URL}tasks_completed/today`,{
+        const res=await axios.get(`${API_URL}tasks_completed`,{
             headers:{
                 Authorization :`Bearer ${localStorage.getItem("access_token")}`
             }
