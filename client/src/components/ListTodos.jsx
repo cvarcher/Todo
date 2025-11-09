@@ -6,7 +6,7 @@ import {
     useDelete,
     useUpdate,
 } from "../hooks/useTodos";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom";
 import dele from "../assets/dele.png";
 import editing from "../assets/editing.png";
 
@@ -25,34 +25,32 @@ const ListTodos = () => {
     if (!Todos || Todos.length === 0) {
         return (
             <div className="flex min-h-screen justify-center items-start overflow-hidden bg-gray-50">
-                <Siderbar />
                 <div className="w-full max-w-2xl mr-8 flex flex-col items-center space-y-6 mt-10">
-                    {isType ? (
+                     
                         <>
-                            <p className="font-semibold text-center text-gray-500 text-2xl">
+                            <p className="font-semibold text-center text-gray-500 text-xl">
                                 No tasks available.
                             </p>
-                            <a
-                                href="/addTask"
-                                className="flex bg-red-700 text-white hover:bg-red-900 gap-2 p-2 rounded-2xl font-medium items-center justify-center"
+                            <Link
+                                to="/addTask"
+                                className="flex bg-[#0d4a84] text-white hover:bg-blue-800 gap-2 p-3 rounded-2xl font-medium items-center justify-center"
                             >
-                                <Plus size={16} />
                                 Add Task
-                            </a>
+                            </Link>
                         </>
-                    ) : (
+                    
                         <>
-                            <p className="font-semibold text-center text-gray-500 text-2xl">
+                            <p className="font-semibold text-center text-gray-500 text-xl">
                                 You haven’t completed any tasks yet!
                             </p>
-                            <a
-                                href="/tasks/todo"
-                                className="flex bg-green-700 text-white hover:bg-green-900 gap-2 p-2 rounded-2xl font-medium items-center justify-center"
+                            <Link
+                                to="/tasks/todo"
+                                className="flex bg-purple-400  text-white hover:bg-[#a6a0d2]  p-2 rounded-2xl font-medium items-center justify-center"
                             >
                                 Go to Tasks
-                            </a>
+                            </Link>
                         </>
-                    )}
+                    
                 </div>
             </div>
         );
@@ -138,6 +136,7 @@ const ListTodos = () => {
                                                     className="w-5"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
+                                                        navigate(`/tasks/edit/${todo.task_id}`)
                                                         }}
                                                 />
                                             </div>
@@ -153,7 +152,7 @@ const ListTodos = () => {
                 {/* tododescription */}
                 {selectedTodoId && (
                     <div
-                        className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50"
+                        className="fixed inset-0 flex items-center justify-center bg-black/50  z-50"
                         onClick={() => {
                             setSelectedTodoId(null);
                             navigate("/tasks");
@@ -176,25 +175,19 @@ const ListTodos = () => {
 
                             {/* Header */}
                             <div className="mb-4 border-b pb-3">
+                              <h2 className="text-2xl font-semi-bold">Task</h2>
                                 <h2 className="text-2xl font-semibold text-gray-800 mb-1">
                                     {TodoById?.task_desc || "Untitled Task"}
                                 </h2>
-                                <p className="text-sm text-gray-500">Inbox</p>
                             </div>
 
                             
 
-                            {/* Sub-task and Comments */}
-                            <div className="mb-5">
-                                <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                    + Add sub-task
-                                </button>
-                            </div>
+        
 
                             
 
                             {/* Task Meta Info */}
-                            <div className="grid grid-cols-2 gap-4 mt-6 border-t pt-4 text-gray-700 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Status</span>
                                     <span
@@ -208,30 +201,16 @@ const ListTodos = () => {
                                             ? "Completed"
                                             : "In Progress"}
                                     </span>
+
+                                          {TodoById?.is_completed
+                                        //   ?<span>{TodoById.completed_at.split('T')[0]}</span>
+                                          && <span className="font-semibold text-[15px]">Completed  at : {TodoById.created_at.split('T')[0]}</span>
+}
                                 </div>
 
-                                <div className="flex justify-between">
-                                    <span className="font-medium">
-                                        Priority
-                                    </span>
-                                    <span>P4</span>
-                                </div>
+    
 
-                                <div className="flex justify-between">
-                                    <span className="font-medium">
-                                        Deadline
-                                    </span>
-                                    <span className="text-orange-500">⚙️</span>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <span className="font-medium">Labels</span>
-                                    <button className="text-blue-600 hover:text-blue-800">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                                                </div>
                     </div>
                 )}
             </div>

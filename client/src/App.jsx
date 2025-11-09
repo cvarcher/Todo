@@ -17,6 +17,7 @@ function App() {
                     <Route path = "addTask" element ={<AddTask/>}/>
                     <Route path="tasks" element={<ListTodos/>} />
                     <Route path="tasks/:task_id" element={<ListTodos/>}/>
+                    <Route path="tasks/edit/:task_id" element={<AddTask/>}/>
                     <Route path="profile" element={<Profile />} />
                     </Route>
 

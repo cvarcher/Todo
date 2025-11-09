@@ -41,8 +41,8 @@ export const useCompletedTodos = () => {
         cacheTime: 1000 * 60 * 10, // 10 minutes
     });
     console.log(CompletedTodos);
-    console.log(isLoading);
-    console.log(error);
+    // console.log(isLoading);
+    // console.log(error);
     return { CompletedTodos, isLoading, error };
 };
 
@@ -59,9 +59,9 @@ export const usegetTodoById = (id) => {
         staleTime: 100 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 10, // 10 minutes
     });
-    console.log(isLoading);
-    console.log(error);
-    console.log(TodoById);
+    // console.log(isLoading);
+    // console.log(error);
+    // console.log(TodoById);
     return { TodoById, isLoading, error };
 };
 
@@ -73,6 +73,7 @@ export const useCreateNew = () => {
         onSuccess: (data) => {
             // Invalidate and refetch
             queryClient.invalidateQueries({ queryKey: ["todos"] });
+            queryClient.invalidateQueries({ queryKey: ["completedTodos"] });
             console.log("data sucessully", data);
         },
         onError: (error) => {

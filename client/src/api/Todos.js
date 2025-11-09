@@ -9,7 +9,7 @@ export const fetchTodos = async () => {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
         });
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch (error) {
         console.error("Error fetching todos:", error);
@@ -52,7 +52,7 @@ export const fetchTodoById = async (id) => {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
         });
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch (error) {
         console.error("error fetching todo by id:", error);
@@ -68,7 +68,7 @@ export const deleteTodo = async (id) => {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
         });
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch (error) {}
 };
