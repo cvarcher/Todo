@@ -2,9 +2,10 @@ import React, { useState, forwardRef } from "react";
 import { Button, Sidebar } from "flowbite-react";
 import { useCreateNew } from "../hooks/useTodos";
 import DatePicker from "react-datepicker";
-import { Calendar } from "lucide-react";
+import { Calendar, ListTodo } from "lucide-react";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
+import ListTodos from "./ListTodos";
 
 const AddTask = () => {
   const createTodoMutation = useCreateNew();
@@ -43,7 +44,7 @@ const AddTask = () => {
   return (
   
     <div className="flex min-h-screen justify-center items-start  overflow-hidden bg-gray-50">
-    {/* <Siderbar/> */}
+
     <div className="w-full max-w-2xl  mr-8">
       <h2 className="text-4xl font-bold mb-6 text-center mt-10">Tasks</h2>
 
@@ -84,6 +85,7 @@ const AddTask = () => {
           </div>
         </form>
       </div>
+      <div><ListTodos type ="tasks"/></div>
     </div>
     </div>
     

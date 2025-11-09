@@ -15,8 +15,7 @@ function App() {
                     {/* Main tasks route */}
                     <Route path="todo" element={<Todo />} />
                     <Route path = "addTask" element ={<AddTask/>}/>
-                    <Route path="tasks" element={<ListTodos/>} />
-                    <Route path="tasks/:task_id" element={<ListTodos/>}/>
+                    <Route path="tasks/:type" element={<ListTodos/>}/>
                     <Route path="profile" element={<Profile />} />
                     </Route>
 

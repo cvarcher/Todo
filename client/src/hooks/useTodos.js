@@ -6,6 +6,7 @@ import {
     deleteTodo,
     updateTodo,
     fetchcompletedTodos,
+    fetchTasks,
 } from "../api/Todos";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -28,10 +29,31 @@ export const useGetTodos = () => {
     return { Todos, isLoading, error };
 };
 
+
+//cutsom hook to get all todos
+export const useGetTasks = () => {
+    // const {isAuthenticated, accessToken} = useAuthContext();
+    const {
+        data: Todos = [], //empty array as default value
+        isLoading,
+        error,
+    } = useQuery({
+        queryKey: ["tasks"],
+        queryFn: fetchTasks,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        cacheTime: 1000 * 60 * 10, // 10 minutes
+    });
+    console.log(Todos);
+    console.log(isLoading);
+    console.log(error);
+    return { Todos, isLoading, error };
+};
+
+
 //get completed todos
 export const useCompletedTodos = () => {
     const {
-        data: CompletedTodos = [], //empty array as default value
+        data: Todos = [], //empty array as default value
         isLoading,
         error,
     } = useQuery({
@@ -40,10 +62,10 @@ export const useCompletedTodos = () => {
         staleTime: 1000 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 10, // 10 minutes
     });
-    console.log(CompletedTodos);
+    console.log(Todos);
     console.log(isLoading);
     console.log(error);
-    return { CompletedTodos, isLoading, error };
+    return { Todos, isLoading, error };
 };
 
 //get specific todo by id
@@ -73,6 +95,10 @@ export const useCreateNew = () => {
         onSuccess: (data) => {
             // Invalidate and refetch
             queryClient.invalidateQueries({ queryKey: ["todos"] });
+            queryClient.
+            invalidateQueries({ queryKey: ["tasks"] });
+            queryClient.
+            invalidateQueries({ queryKey: ["completedTodos"] });
             console.log("data sucessully", data);
         },
         onError: (error) => {
@@ -91,7 +117,11 @@ export const useDelete = () => {
         onSuccess: async (data) => {
             console.log("Task deleted successfully", data);
             // Wait for the backend to confirm deletion, then refetch
-            queryClient.invalidateQueries({ queryKey: ["todos"] });
+           queryClient.invalidateQueries({ queryKey: ["todos"] });
+            queryClient.
+            invalidateQueries({ queryKey: ["tasks"] });
+            queryClient.
+            invalidateQueries({ queryKey: ["completedTodos"] });
         },
         onError: (error) => {
             console.error("Failed to delete task", error);
@@ -108,7 +138,10 @@ export const useUpdate = () => {
         mutationFn: ({ id, updatedData }) => updateTodo(id, updatedData),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["todos"] });
-            console.log("updated sucessfulyy", data);
+            queryClient.
+            invalidateQueries({ queryKey: ["tasks"] });
+            queryClient.
+            invalidateQueries({ queryKey: ["completedTodos"] });
         },
         onError: (error) => {
             console.error("Failed to update task", error);

@@ -4,13 +4,13 @@ import Siderbar from './components/Siderbar'
 
 const Layout = () => {
   return (
-    <>
+    <div className='flex bg-gray-50'>
     <Siderbar/>
-    <main>
+    <main className='flex-1 '>
         <Outlet/>
     </main>
     
-    </>
+    </div>
   )
 }
 

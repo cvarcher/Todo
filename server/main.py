@@ -106,6 +106,24 @@ def tasks_completed_todady(user = Depends(get_current_user)):
 
     return completed_tasks
 
+
+
+@app.get("/api/tasks_completed")
+def tasks_completed_todady(user = Depends(get_current_user)):
+   
+    query = {
+        "user_id":str(user["_id"]),
+        "is_completed" :True}
+    
+    completed_tasks = list(todos_collection.find(query))
+
+    for task in completed_tasks:
+        task["_id"]= str(task["_id"])
+
+
+    return completed_tasks
+
+
 @app.post("/api/tasks")
 def create_task(task_request: TaskCreate, user= Depends(get_current_user)):
     created_time = datetime.now()
